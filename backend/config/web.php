@@ -12,13 +12,16 @@ $config = [
         '@npm'   => '@vendor/npm-asset',
     ],
     'modules' => [
-        'api' => [
+        'v1' => [
             'class' => 'app\api\v1\Module',
         ],
     ],
     'components' => [
         'request' => [
-            'application/json' => 'yii\web\JsonParser',
+            'cookieValidationKey' => 'evr5080Wb5Fx4TnFHfYA1sKYF/J+tqk48H3v6rnccqE=',
+            'parsers' => [
+                'application/json' => 'yii\web\JsonParser',
+            ]
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
@@ -51,8 +54,14 @@ $config = [
             'enableStrictParsing' => true,
             'showScriptName' => false,
             'rules' => [
-                ['class' => 'yii\rest\UrlRule', 'controller' => 'v1/user'],
+                ['class' => 'yii\rest\UrlRule', 'controller' => ['v1/user']],
             ],
+        ],
+        'response' => [
+            'formatters' => [
+                'json' => 'yii\web\JsonResponseFormatter',
+            ],
+            'format' => \yii\web\Response::FORMAT_JSON,
         ],
     ],
     'params' => $params,
