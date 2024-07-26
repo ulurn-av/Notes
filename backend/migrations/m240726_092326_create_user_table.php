@@ -17,7 +17,7 @@ class m240726_092326_create_user_table extends Migration
             'email' => $this->string(32)->notNull()->unique(),
             'first_name' => $this->string(32)->notNull(),
             'last_name' => $this->string(32)->notNull(),
-            'hash_password' => $this->string()->notNull(),
+            'password_hash' => $this->string()->notNull(),
         ]);
     }
 

@@ -27,7 +27,8 @@ $config = [
             'class' => 'yii\caching\FileCache',
         ],
         'user' => [
-            'identityClass' => 'app\models\User',
+            'class' => 'app\components\JwtAuth',
+            'identityClass' => 'app\api\v1\models\User',
             'enableAutoLogin' => true,
         ],
         'errorHandler' => [
@@ -55,6 +56,8 @@ $config = [
             'showScriptName' => false,
             'rules' => [
                 ['class' => 'yii\rest\UrlRule', 'controller' => ['v1/user']],
+                'POST v1/auth/signup' => 'v1/auth/signup',
+                'POST v1/auth/login' => 'v1/auth/login',
             ],
         ],
         'response' => [
