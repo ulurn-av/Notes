@@ -19,10 +19,11 @@ class AuthController extends Controller
     public function actionSignup(): array {
         $model = new SignupForm();
 
-
         if ($model->load(\Yii::$app->request->post(), '') && $model->signup()) {
+            \Yii::$app->response->statusCode = 201;
             return ['status' => 'success', 'message' => 'Registration successful'];
         }
+        \Yii::$app->response->statusCode = 400;
         return ['status' => 'error', 'message' => $model->errors];
     }
 
@@ -36,8 +37,10 @@ class AuthController extends Controller
                 'exp' => time() + 60 * 60,
             ];
             $token = JwtHelper::generateToken($payload);
+            \Yii::$app->response->statusCode = 200;
             return ['status' => 'success', 'message' => 'Login successful', 'token' => $token];
         }
+        \Yii::$app->response->statusCode = 401;
         return ['status' => 'error', 'message' => $model->errors];
     }
 }

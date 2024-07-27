@@ -33,6 +33,10 @@ class SignupForm extends Model
                 if ($user->save()){
                     return true;
                 }
+                else{
+                    print(json_encode($user->errors));
+                    $this->addError('signup', 'User save failed'. json_encode($user->errors));
+                }
             }
             catch (Exception $e){
                 $this->addError('signup', 'User save failed'.$e->getMessage());
