@@ -19,9 +19,15 @@ class AuthController extends Controller
     public function actionSignup(): array {
         $model = new SignupForm();
 
-        if ($model->load(\Yii::$app->request->post(), '') && $model->signup()) {
+        if (!$model->load(\Yii::$app->request->post(), '')){
+            \Yii::$app->response->statusCode = 400;
+            return ['status' => 'error', 'message' => $model->errors];
+        }
+
+        $user = $model->signup();
+        if ($user) {
             \Yii::$app->response->statusCode = 201;
-            return ['status' => 'success', 'message' => 'Registration successful'];
+            return ['user' => $user, 'status' => 'success', 'message' => 'Registration successful'];
         }
         \Yii::$app->response->statusCode = 400;
         return ['status' => 'error', 'message' => $model->errors];

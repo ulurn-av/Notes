@@ -4,6 +4,7 @@ namespace app\api\v1\models;
 
 use yii\base\Model;
 use yii\db\Exception;
+use app\api\v1\resource\User;
 
 class SignupForm extends Model
 {
@@ -22,7 +23,7 @@ class SignupForm extends Model
         ];
     }
 
-    public function signup(): bool {
+    public function signup(): ?User {
         if ($this->validate()){
             $user = new User();
             $user->email = $this->email;
@@ -31,7 +32,7 @@ class SignupForm extends Model
             $user->setPassword($this->password);
             try{
                 if ($user->save()){
-                    return true;
+                    return $user;
                 }
                 else{
                     print(json_encode($user->errors));
@@ -42,6 +43,6 @@ class SignupForm extends Model
                 $this->addError('signup', 'User save failed'.$e->getMessage());
             }
         }
-        return false;
+        return null;
     }
 }

@@ -5,6 +5,16 @@ namespace app\api\v1\models;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 
+/**
+ * Class User
+ * @package app\api\v1\models
+ *
+ * @property int $id
+ * @property string $email
+ * @property string $first_name
+ * @property string $last_name
+ * @property string $password_hash
+ */
 class User extends ActiveRecord implements IdentityInterface
 {
     public static function tableName(): string {
