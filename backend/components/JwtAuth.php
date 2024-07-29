@@ -23,8 +23,8 @@ class JwtAuth extends BaseUser
     public function loginByAccessToken($token, $type = null)
     {
         $payload = JwtHelper::validateToken($token);
-        if ($payload && isset($payload['sub'])) {
-            return $this->login($this->findIdentity($payload['sub']));
+        if ($payload && isset($payload->sub)) {
+            return $this->login($this->findIdentity($payload->sub));
         }
     }
 }
