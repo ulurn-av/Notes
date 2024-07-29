@@ -55,7 +55,7 @@ $config = [
             'enableStrictParsing' => true,
             'showScriptName' => false,
             'rules' => [
-                ['class' => 'yii\rest\UrlRule', 'controller' => ['v1/user']],
+                ['class' => 'yii\rest\UrlRule', 'controller' => ['v1/user', 'v1/note']],
                 'POST v1/auth/signup' => 'v1/auth/signup',
                 'POST v1/auth/login' => 'v1/auth/login',
             ],

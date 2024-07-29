@@ -20,6 +20,7 @@ class AuthController extends Controller
         $model = new SignupForm();
 
         if (!$model->load(\Yii::$app->request->post(), '')){
+            $model->validate();
             \Yii::$app->response->statusCode = 400;
             return ['status' => 'error', 'message' => $model->errors];
         }
@@ -29,6 +30,7 @@ class AuthController extends Controller
             \Yii::$app->response->statusCode = 201;
             return ['user' => $user, 'status' => 'success', 'message' => 'Registration successful'];
         }
+
         \Yii::$app->response->statusCode = 400;
         return ['status' => 'error', 'message' => $model->errors];
     }
@@ -46,6 +48,8 @@ class AuthController extends Controller
             \Yii::$app->response->statusCode = 200;
             return ['status' => 'success', 'message' => 'Login successful', 'token' => $token];
         }
+
+        $model->validate();
         \Yii::$app->response->statusCode = 401;
         return ['status' => 'error', 'message' => $model->errors];
     }

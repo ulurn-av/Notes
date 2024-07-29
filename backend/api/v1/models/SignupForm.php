@@ -8,10 +8,10 @@ use app\api\v1\resource\User;
 
 class SignupForm extends Model
 {
-    public string $email;
-    public string $first_name;
-    public string $last_name;
-    public string $password;
+    public string $email = '';
+    public string $first_name = '';
+    public string $last_name = '';
+    public string $password = '';
 
     public function rules(): array
     {

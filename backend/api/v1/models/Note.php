@@ -19,6 +19,20 @@ use Yii;
  */
 class Note extends \yii\db\ActiveRecord
 {
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => \yii\behaviors\BlameableBehavior::class,
+                'updatedByAttribute' => false,
+            ],
+            [
+                'class' => \yii\behaviors\TimestampBehavior::class,
+                'value' => function() { return date('Y-m-d H:i:s', time()); },
+            ]
+        ];
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -33,7 +47,7 @@ class Note extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'content', 'created_at', 'updated_at', 'created_by'], 'required'],
+            [['title', 'content'], 'required'],
             [['content'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
             [['created_by'], 'integer'],

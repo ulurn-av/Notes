@@ -8,8 +8,8 @@ use app\api\v1\resource\User;
 
 class LoginForm extends Model
 {
-    public string $email;
-    public string $password;
+    public string $email = '';
+    public string $password = '';
 
     private ?User $_user = null;
 
