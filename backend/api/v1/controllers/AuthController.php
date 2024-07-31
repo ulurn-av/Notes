@@ -35,7 +35,15 @@ class AuthController extends Controller
         return ['status' => 'error', 'message' => $model->errors];
     }
 
+
     public function actionLogin(): array {
+        try {
+            JwtHelper::init();
+        } catch (\Exception $e) {
+            \Yii::$app->response->statusCode = 500;
+            return ['status' => 'error', 'message' => $e->getMessage()];
+        }
+
         $model = new LoginForm();
 
         if ($model->load(\Yii::$app->request->post(), '') && $model->login()) {

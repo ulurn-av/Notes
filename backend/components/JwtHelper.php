@@ -7,9 +7,18 @@ use Firebase\JWT\Key;
 
 class JwtHelper
 {
-    private static $key = '5z1fSnM/CedkcvMpTM4do7nfwdt1TQBofNUOoYe5ALE=';
+    private static $key;
 
-    public static function generateToken($payload) {
+    public static function init()
+    {
+        self::$key = $_ENV['JWT_SECRET'] ?? false;
+        if (self::$key === false) {
+            throw new \Exception('JWT_SECRET not found in .env file');
+        }
+    }
+
+    public static function generateToken($payload): string
+    {
         return JWT::encode($payload, self::$key, 'HS256');
     }
 
