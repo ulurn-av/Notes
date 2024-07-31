@@ -41,6 +41,10 @@ class ComposerStaticInit72ac0b8252822528c034bbf39a2eb746
         array (
             'cebe\\markdown\\' => 14,
         ),
+        'a' => 
+        array (
+            'app\\components\\' => 15,
+        ),
         'S' => 
         array (
             'Symfony\\Polyfill\\Php80\\' => 23,
@@ -137,6 +141,10 @@ class ComposerStaticInit72ac0b8252822528c034bbf39a2eb746
         'cebe\\markdown\\' => 
         array (
             0 => __DIR__ . '/..' . '/cebe/markdown',
+        ),
+        'app\\components\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/components',
         ),
         'Symfony\\Polyfill\\Php80\\' => 
         array (

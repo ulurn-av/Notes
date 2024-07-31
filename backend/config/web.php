@@ -1,9 +1,11 @@
 <?php
 
+use app\components\JwtHelper;
+
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
-$dotenv = \Dotenv\Dotenv::createImmutable(dirname(__DIR__));
-$dotenv->load();
+
+JwtHelper::init();
 
 $config = [
     'id' => 'basic',
