@@ -14,6 +14,11 @@ class NoteQuery extends \yii\db\ActiveQuery
         return $this->andWhere('[[status]]=1');
     }*/
 
+    public function forCurrentUser()
+    {
+        return $this->andWhere(['created_by' => \Yii::$app->user->id]);
+    }
+
     /**
      * {@inheritdoc}
      * @return \app\api\v1\models\Note[]|array

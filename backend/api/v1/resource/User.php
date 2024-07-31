@@ -8,6 +8,6 @@ class User extends BaseUser
 {
     public function fields()
     {
-        return ['id', 'email', 'first_name', 'last_name'];
+        return ['email'];
     }
 }

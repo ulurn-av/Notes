@@ -16,5 +16,14 @@ class NoteController extends ActiveController
         return $behaviors;
     }
 
-    public $modelClass = 'app\api\v1\models\Note';
+    public function checkAccess($action, $model = null, $params = [])
+    {
+        if ($action === 'update' || $action === 'delete') {
+            if ($model->created_by !== \Yii::$app->user->id) {
+                throw new \yii\web\ForbiddenHttpException(sprintf('You can only %s notes that you\'ve created.', $action));
+            }
+        }
+    }
+
+    public $modelClass = 'app\api\v1\resource\Note';
 }

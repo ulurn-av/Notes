@@ -97,6 +97,6 @@ class Note extends \yii\db\ActiveRecord
      */
     public static function find()
     {
-        return new \app\api\v1\models\query\NoteQuery(get_called_class());
+        return (new \app\api\v1\models\query\NoteQuery(get_called_class()))->forCurrentUser();
     }
 }
