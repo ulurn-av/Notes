@@ -88,7 +88,7 @@ class Note extends \yii\db\ActiveRecord
      */
     public function getNoteHistories()
     {
-        return $this->hasMany(NoteHistory::class, ['note_id' => 'id']);
+        return $this->hasMany(NoteHistory::class, ['note_id' => 'id'])->orderBy(['changed_at' => SORT_DESC]);
     }
 
     /**

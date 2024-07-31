@@ -2,6 +2,7 @@
 
 namespace app\api\v1\models;
 
+use Cassandra\Date;
 use Yii;
 
 /**
