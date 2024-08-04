@@ -3,9 +3,13 @@
     <div class="container">
       <header class="header-of-notes">
         <h1>Notes</h1>
+        <InputSearch
+          v-model="querySearch"
+          :placeholder-search="placeholderSearch"
+        />
         <button-add>+</button-add>
       </header>
-      <ListCards :notes="notes"/>
+      <ListCards :notes="searchedNotes"/>
     </div>
   </div>
 </template>
@@ -13,19 +17,29 @@
 <script>
 import ButtonAdd from "@/components/UI/ButtonAdd.vue";
 import ListCards from "@/components/ListCards.vue";
+import InputSearch from "@/components/UI/InputSearch.vue";
 
 export default {
-  components: {ButtonAdd, ListCards},
+  components: {ButtonAdd, ListCards, InputSearch},
   data() {
     return {
+      querySearch: '',
+      placeholderSearch: "Search your note...",
       notes: [
-        {title: 't', body: 'sdf', date: '24-07-23'},
+        {title: 't fd', body: 'sdf', date: '24-07-23'},
         {title: 'title', body: 'body', date: '24-07-23'},
         {title: 't', body: 'sdf', date: '24-07-23'},
         {title: 'title', body: 'body', date: '24-07-23'},
         {title: 't', body: 'sdf', date: '24-07-23'},
         {title: 'title', body: 'body', date: '24-07-23'},
       ]
+    }
+  },
+  computed: {
+    searchedNotes() {
+      return this.notes.filter(note => (note.body.toLowerCase().includes(this.querySearch.toLowerCase())
+      || (note.title.toLowerCase().includes(this.querySearch.toLowerCase()))
+      ))
     }
   }
 }

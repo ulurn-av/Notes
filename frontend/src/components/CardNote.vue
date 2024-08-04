@@ -25,7 +25,7 @@ export default {
   bottom: 5px;
   right: 5px;
   background-color: transparent;
-  color: rgb(70, 52, 52);
+  color: black;
   border: none;
   font-size: 20px;
   cursor: pointer;
