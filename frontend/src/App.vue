@@ -9,7 +9,7 @@
         />
         <button-add>+</button-add>
       </header>
-      <ListCards :notes="notes"/>
+      <ListCards :notes="searchedNotes"/>
     </div>
   </div>
 </template>
@@ -26,13 +26,20 @@ export default {
       querySearch: '',
       placeholderSearch: "Search your note...",
       notes: [
-        {title: 't', body: 'sdf', date: '24-07-23'},
+        {title: 't fd', body: 'sdf', date: '24-07-23'},
         {title: 'title', body: 'body', date: '24-07-23'},
         {title: 't', body: 'sdf', date: '24-07-23'},
         {title: 'title', body: 'body', date: '24-07-23'},
         {title: 't', body: 'sdf', date: '24-07-23'},
         {title: 'title', body: 'body', date: '24-07-23'},
       ]
+    }
+  },
+  computed: {
+    searchedNotes() {
+      return this.notes.filter(note => (note.body.toLowerCase().includes(this.querySearch.toLowerCase())
+      || (note.title.toLowerCase().includes(this.querySearch.toLowerCase()))
+      ))
     }
   }
 }
