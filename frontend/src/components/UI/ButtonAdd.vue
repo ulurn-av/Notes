@@ -15,7 +15,7 @@ export default {
 
 <style scoped>
 button {
-  background-color: lightslategray;
+  background-color: gray;
   border: none;
   padding: 10px;
   width: 50px;
@@ -30,7 +30,7 @@ button {
 
 @media (prefers-color-scheme: dark) {
   button {
-    background-color: lightslategray;
+    background-color: gray;
   }
 }
 
@@ -41,6 +41,6 @@ button:hover {
 
 button:active {
   transform: scale(0.95);
-  background-color: lightslategray;
+  background-color: gray;
 }
 </style>
