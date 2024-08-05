@@ -5,6 +5,7 @@ namespace app\api\v1\controllers;
 use app\api\v1\models\SignupForm;
 use app\components\JwtHelper;
 use app\api\v1\models\LoginForm;
+use yii\filters\Cors;
 use yii\rest\Controller;
 
 class AuthController extends Controller
@@ -13,7 +14,7 @@ class AuthController extends Controller
     {
         $behaviors = parent::behaviors();
         $behaviors['contentNegotiator']['formats']['application/json'] = \yii\web\Response::FORMAT_JSON;
-        return $behaviors;
+        return array_merge($behaviors, ['cors' => Cors::class]);
     }
 
     public function actionSignup(): array {

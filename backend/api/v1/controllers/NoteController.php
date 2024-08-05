@@ -2,6 +2,7 @@
 
 namespace app\api\v1\controllers;
 
+use yii\filters\Cors;
 use yii\rest\ActiveController;
 
 class NoteController extends ActiveController
@@ -12,6 +13,7 @@ class NoteController extends ActiveController
 //        $behaviors['authenticator'] = [
 //            'class' => \yii\filters\auth\HttpBearerAuth::class,
 //        ];
+        return array_merge($behaviors, ['cors' => Cors::class]);
 
         return $behaviors;
     }

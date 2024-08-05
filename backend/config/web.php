@@ -62,6 +62,8 @@ $config = [
                 ['class' => 'yii\rest\UrlRule', 'controller' => ['v1/user', 'v1/note']],
                 'POST v1/auth/signup' => 'v1/auth/signup',
                 'POST v1/auth/login' => 'v1/auth/login',
+                'OPTIONS v1/auth/login' => 'v1/auth/login',
+                'OPTIONS v1/auth/signup' => 'v1/auth/signup',
             ],
         ],
         'response' => [
