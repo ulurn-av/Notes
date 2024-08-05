@@ -15,6 +15,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 import ButtonAdd from "@/components/UI/ButtonAdd.vue";
 import ListCards from "@/components/ListCards.vue";
 import InputSearch from "@/components/UI/InputSearch.vue";
@@ -23,20 +24,44 @@ export default {
   components: {ButtonAdd, ListCards, InputSearch},
   data() {
     return {
+      isLoading: false,
       querySearch: '',
       placeholderSearch: "Search your note...",
-      notes: [
-        {title: 't fd', body: 'sdf', date: '24-07-23'},
-        {title: 'title', body: 'body', date: '24-07-23'},
-        {title: 't', body: 'sdf', date: '24-07-23'},
-        {title: 'title', body: 'body', date: '24-07-23'},
-        {title: 't', body: 'sdf', date: '24-07-23'},
-        {title: 'title', body: 'body', date: '24-07-23'},
-      ]
+      notes: []
     }
+  },
+  methods: {
+    async fetchNotes() {
+      this.isLoading = true
+
+      try{
+        const response = await axios.get('http://localhost:8080/v1/notes', {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+        this.notes = response.data
+      }
+      catch (error){
+        if (error.response) {
+          console.error('Response error:', error.response.data);
+        } else if (error.request) {
+          console.error('Request error:', error.request);
+        } else {
+          console.error('Error:', error.message);
+        }
+      }
+      finally {
+        this.isLoading = false
+      }
+    }
+  },
+  mounted() {
+    this.fetchNotes();
   },
   computed: {
     searchedNotes() {
+      console.log(this.notes)
       return this.notes.filter(note => (note.body.toLowerCase().includes(this.querySearch.toLowerCase())
       || (note.title.toLowerCase().includes(this.querySearch.toLowerCase()))
       ))

@@ -31,6 +31,7 @@ export default {
 .cards-container {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 .card {
@@ -42,8 +43,8 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  margin-right: 20px;
-  margin-bottom: 20px;
+  margin-right: 40px;
+  margin-bottom: 40px;
   position: relative;
   overflow: hidden;
   transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
