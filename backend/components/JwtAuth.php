@@ -3,6 +3,7 @@
 namespace app\components;
 
 use app\components\JwtHelper;
+use yii\db\BaseActiveRecord;
 use yii\web\user as BaseUser;
 
 class JwtAuth extends BaseUser
@@ -15,7 +16,7 @@ class JwtAuth extends BaseUser
         parent::__construct($config);
     }
 
-    public function findIdentity($id)
+    public function findIdentity($id): ?BaseActiveRecord
     {
         return call_user_func([$this->identityClass, 'findIdentity'], $id);
     }

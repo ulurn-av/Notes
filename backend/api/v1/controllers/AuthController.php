@@ -3,6 +3,7 @@
 namespace app\api\v1\controllers;
 
 use app\api\v1\models\SignupForm;
+use app\api\v1\models\TokenForm;
 use app\components\JwtHelper;
 use app\api\v1\models\LoginForm;
 use yii\filters\Cors;
@@ -61,5 +62,21 @@ class AuthController extends Controller
         $model->validate();
         \Yii::$app->response->statusCode = 401;
         return ['status' => 'error', 'message' => $model->errors];
+    }
+
+    public function actionValidateToken(): array {
+        $isValidToken = False;
+        $model = new TokenForm();
+
+        if ($model->load(\Yii::$app->request->post(), '') && $model->isValidToken($model->token))
+            $isValidToken = True;
+
+        if($model->validate()){
+            \Yii::$app->response->statusCode = 200;
+            return ['validated' => $isValidToken];
+        }
+
+        \Yii::$app->response->statusCode = 400;
+        return ['message' => $model->errors];
     }
 }

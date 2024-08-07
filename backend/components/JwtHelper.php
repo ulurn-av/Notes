@@ -22,7 +22,7 @@ class JwtHelper
         return JWT::encode($payload, self::$key, 'HS256');
     }
 
-    public static function validateToken($token) {
+    public static function validateToken($token): \stdClass|false {
         try{
             return JWT::decode($token, new Key(self::$key, 'HS256'));
         } catch (\Exception $e) {
