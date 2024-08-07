@@ -1,8 +1,14 @@
 <template>
   <div>
-    <form @submit.prevent="login">
-      <input v-model="email" placeholder="email..."/>
-      <input v-model="password" placeholder="password..." type="password"/>
+    <form @submit.prevent="handelLogin">
+      <div>
+        <input v-model="email" placeholder="email..."/>
+        <p v-if="errors.email">{{errors.email}}</p>
+      </div>
+      <div>
+        <input v-model="password" placeholder="password..." type="password"/>
+        <p v-if="errors.password">{{errors.password}}</p>
+      </div>
       <button type="submit">Log In</button>
     </form>
   </div>
@@ -20,21 +26,39 @@ export default {
     return {
       email: '',
       password: '',
+      errors: {
+        email: null,
+        password: null,
+      },
     }
   },
   methods: {
     async login(){
+      this.errors.email = null;
+      this.errors.password = null;
       let response;
 
-      try{
-        response = await axios.post('http://localhost:8080/v1/auth/login', {
-          email: this.email,
-          password: this.password
-        })
-      } catch (error){
-        console.error('Error registering:', error);
+      if(!this.email || !this.password){
+        this.errors.email = 'Email is required';
+        this.errors.password = 'Password is required';
+        return;
       }
+
+      response = await axios.post('http://localhost:8080/v1/auth/login', {
+        email: this.email,
+        password: this.password
+      })
       localStorage.setItem('token', response.data.token)
+    },
+    async handelLogin() {
+      try {
+        await this.login();
+        if (!this.errors.email && !this.errors.password) {
+          this.$router.push('/');
+        }
+      } catch (error) {
+        console.error('Login failed:', error);
+      }
     }
   }
 }
