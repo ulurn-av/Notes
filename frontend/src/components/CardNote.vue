@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p class="card-delete">x</p>
+    <p @click="removeCard" class="card-delete">x</p>
     <p class="card-title">{{ note.title }}</p>
     <p class="card-text">{{ note.content }}</p>
     <p class="card-date">{{ note.created_at }}</p>
@@ -13,6 +13,11 @@ export default {
     note: {
       type: Object,
       default: () => {}
+    }
+  },
+  methods: {
+    removeCard() {
+      this.$emit('remove', this.note);
     }
   }
 }

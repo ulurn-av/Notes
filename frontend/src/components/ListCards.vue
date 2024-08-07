@@ -4,6 +4,7 @@
         v-for="note in notes"
         class="card"
         :note="note"
+        @remove="removeCard"
     >
     </CardNote>
   </div>
@@ -19,7 +20,11 @@ export default {
       required: true,
     }
   },
-
+  methods: {
+    removeCard(note) {
+      this.$emit('remove', note);
+    }
+  },
   components: {
     CardNote,
   }

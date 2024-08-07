@@ -9,13 +9,23 @@
         />
         <button-add @click="showModal">+</button-add>
       </header>
-      <ListCards :notes="searchedNotes"/>
+      <ListCards :notes="searchedNotes" @remove="activateRemoveNote"/>
     </div>
     <modal-window v-model:show="isShowingModal">
       <note-form
           @create="createNote"
       >
       </note-form>
+    </modal-window>
+    <modal-window
+        v-model:show="isRemovingNote"
+    >
+      <remove-note-form
+          @remove="removeNote"
+          @break="disableRemoveNote"
+          :note="removeNote"
+      >
+      </remove-note-form>
     </modal-window>
   </div>
 </template>
@@ -27,9 +37,10 @@ import ListCards from "@/components/ListCards.vue";
 import InputSearch from "@/components/UI/InputSearch.vue";
 import ModalWindow from "@/components/UI/ModalWindow.vue";
 import NoteForm from "@/components/NoteForm.vue";
+import RemoveNoteForm from "@/components/RemoveNoteForm.vue";
 
 export default {
-  components: {NoteForm, ModalWindow, ButtonAdd, ListCards, InputSearch},
+  components: {RemoveNoteForm, NoteForm, ModalWindow, ButtonAdd, ListCards, InputSearch},
   data() {
     return {
       isLoading: false,
@@ -37,6 +48,8 @@ export default {
       placeholderSearch: "Search your note...",
       notes: [],
       isShowingModal: false,
+      isRemovingNote: false,
+      removingNote: () => {},
     }
   },
   methods: {
@@ -85,6 +98,28 @@ export default {
         console.error('Error:', error.message);
       }
       this.isShowingModal = false;
+      await this.fetchNotes();
+    },
+    activateRemoveNote(note) {
+      this.removingNote = note;
+      this.isRemovingNote = true;
+    },
+    disableRemoveNote() {
+      this.removingNote = {};
+      this.isRemovingNote = false;
+    },
+    async removeNote() {
+      try {
+        const response = await axios.delete(`http://localhost:8080/v1/notes/${this.removingNote.id}`, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          }
+        })
+      } catch (error) {
+        console.error('Error:', error.message);
+      }
+      this.isRemovingNote = false;
       await this.fetchNotes();
     }
   },
