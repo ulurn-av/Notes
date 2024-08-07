@@ -68,8 +68,17 @@ class AuthController extends Controller
         $isValidToken = False;
         $model = new TokenForm();
 
-        if ($model->load(\Yii::$app->request->post(), '') && $model->isValidToken($model->token))
-            $isValidToken = True;
+        $authHeader = \Yii::$app->request->headers->get('Authorization');
+        if ($authHeader && $authHeader.str_starts_with($authHeader, 'Bearer ')){
+            $token = substr($authHeader, 7);
+            $model->token = $token;
+            if($model->isValidToken())
+                $isValidToken = True;
+        }
+        else{
+            \Yii::$app->response->statusCode = 400;
+            return ['message' => 'Authorization header is missing or invalid.'];
+        }
 
         if($model->validate()){
             \Yii::$app->response->statusCode = 200;

@@ -16,10 +16,10 @@ class TokenForm extends Model
         ];
     }
 
-    public function isValidToken(string $token): bool {
+    public function isValidToken(): bool {
         $auth = new JwtAuth();
 
-        $payload = JwtHelper::validateToken($token);
+        $payload = JwtHelper::validateToken($this->token);
         if($payload && isset($payload->sub) && $auth->findIdentity($payload->sub)) {
             return True;
         }

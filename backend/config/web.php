@@ -64,7 +64,8 @@ $config = [
                 'POST v1/auth/login' => 'v1/auth/login',
                 'OPTIONS v1/auth/login' => 'v1/auth/login',
                 'OPTIONS v1/auth/signup' => 'v1/auth/signup',
-                'POST v1/auth/validate-token' => 'v1/auth/validate-token'
+                'POST v1/auth/validate-token' => 'v1/auth/validate-token',
+                'OPTIONS v1/auth/validate-token' => 'v1/auth/validate-token',
             ],
         ],
         'response' => [
