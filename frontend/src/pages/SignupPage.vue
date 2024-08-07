@@ -1,16 +1,16 @@
 <template>
   <div>
-    <register-form></register-form>
-    <login-form></login-form>
+    <RegisterForm></RegisterForm>
+    <p>Already have an account?</p>
+    <router-link to="/login">Login</router-link>
   </div>
 </template>
 
 <script>
 import RegisterForm from "@/components/RegisterForm.vue";
-import LoginForm from "@/components/LoginFrom.vue";
 
 export default {
-  components: {LoginForm, RegisterForm}
+  components: {RegisterForm}
 
 }
 </script>

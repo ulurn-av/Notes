@@ -5,7 +5,7 @@
       <input v-model="first_name" placeholder="Your name..."/>
       <input v-model="last_name" placeholder="Your last name..."/>
       <input v-model="password" placeholder="Type your password..."/>
-      <button type="submit">Register</button>
+      <button type="submit">Signup</button>
     </form>
   </div>
 </template>
@@ -25,11 +25,6 @@ export default {
   },
   methods: {
     async register() {
-      // if (!this.email || !this.first_name || !this.last_name || !this.password) {
-      //   alert('Please fill in all required fields');
-      //   return;
-      // }
-
       try {
         const response = await axios.post('http://localhost:8080/v1/auth/signup', {
           email: this.email,
