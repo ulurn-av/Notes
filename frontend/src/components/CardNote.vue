@@ -2,8 +2,8 @@
   <div>
     <p class="card-delete">x</p>
     <p class="card-title">{{ note.title }}</p>
-    <p class="card-text">{{ note.body }}</p>
-    <p class="card-date">{{ note.date }}</p>
+    <p class="card-text">{{ note.content }}</p>
+    <p class="card-date">{{ note.created_at }}</p>
   </div>
 </template>
 

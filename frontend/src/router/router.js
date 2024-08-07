@@ -2,12 +2,16 @@ import Notes from "@/pages/Notes.vue";
 import {createRouter, createWebHistory} from "vue-router";
 import LoginPage from "@/pages/LoginPage.vue";
 import SignupPage from "@/pages/SignupPage.vue";
+import axios from "axios";
 
 
 const routes = [
     {
         path: '/',
-        component: Notes
+        component: Notes,
+        meta: {
+            requiresAuth: true
+        },
     },
     {
         path: '/login',
@@ -24,4 +28,33 @@ const router = createRouter({
     history: createWebHistory(),
 })
 
-export default router;
+async function isAuthenticated(){
+    const token = localStorage.getItem('token');
+    if (!token)
+        return false;
+
+    try{
+        const response = await axios.post('http://localhost:8080/v1/auth/validate-token', {}, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        return response.data.validated;
+    } catch (error){
+        console.error('Error validating token:', error);
+        return false;
+    }
+}
+
+router.beforeEach(async (to, from, next) => {
+    const isAuth = await isAuthenticated();
+    if (to.meta.requiresAuth && !isAuth) {
+        next({ path: '/login' });
+    }
+    else{
+        next();
+    }
+})
+
+export default router

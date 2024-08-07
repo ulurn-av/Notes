@@ -33,11 +33,13 @@ export default {
   methods: {
     async fetchNotes() {
       this.isLoading = true
+      const token = localStorage.getItem('token');
 
       try {
         const response = await axios.get('http://localhost:8080/v1/notes', {
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
           }
         })
         this.notes = response.data
@@ -59,8 +61,7 @@ export default {
   },
   computed: {
     searchedNotes() {
-      console.log(this.notes)
-      return this.notes.filter(note => (note.body.toLowerCase().includes(this.querySearch.toLowerCase())
+      return this.notes.filter(note => (note.content.toLowerCase().includes(this.querySearch.toLowerCase())
           || (note.title.toLowerCase().includes(this.querySearch.toLowerCase()))
       ))
     }
