@@ -55,6 +55,9 @@ router.beforeEach(async (to, from, next) => {
     else if ((to.path === '/login' || to.path === '/signup') && isAuth){
         next({ path: '/' });
     }
+    else if (to.path === '/' && !isAuth){
+        next({ path: '/login' });
+    }
     else{
         next();
     }

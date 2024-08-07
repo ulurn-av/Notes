@@ -7,10 +7,16 @@
           v-model="querySearch"
           :placeholder-search="placeholderSearch"
         />
-        <button-add>+</button-add>
+        <button-add @click="showModal">+</button-add>
       </header>
       <ListCards :notes="searchedNotes"/>
     </div>
+    <modal-window v-model:show="isShowingModal">
+      <note-form
+          @create="createNote"
+      >
+      </note-form>
+    </modal-window>
   </div>
 </template>
 
@@ -19,18 +25,24 @@ import axios from 'axios';
 import ButtonAdd from "@/components/UI/ButtonAdd.vue";
 import ListCards from "@/components/ListCards.vue";
 import InputSearch from "@/components/UI/InputSearch.vue";
+import ModalWindow from "@/components/UI/ModalWindow.vue";
+import NoteForm from "@/components/NoteForm.vue";
 
 export default {
-  components: {ButtonAdd, ListCards, InputSearch},
+  components: {NoteForm, ModalWindow, ButtonAdd, ListCards, InputSearch},
   data() {
     return {
       isLoading: false,
       querySearch: '',
       placeholderSearch: "Search your note...",
-      notes: []
+      notes: [],
+      isShowingModal: false,
     }
   },
   methods: {
+    showModal() {
+      this.isShowingModal = true;
+    },
     async fetchNotes() {
       this.isLoading = true
       const token = localStorage.getItem('token');
@@ -54,6 +66,26 @@ export default {
       } finally {
         this.isLoading = false
       }
+    },
+    async createNote(note) {
+      try {
+        const response = await axios.post('http://localhost:8080/v1/notes',
+            {
+              title: note.title,
+              content: note.body,
+            },
+            {
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`,
+              }
+            }
+        )
+      } catch (error) {
+        console.error('Error:', error.message);
+      }
+      this.isShowingModal = false;
+      await this.fetchNotes();
     }
   },
   mounted() {
