@@ -10,10 +10,10 @@ class NoteController extends ActiveController
     function behaviors()
     {
         $behaviors = parent::behaviors();
+        $behaviors['cors'] = Cors::class;
         $behaviors['authenticator'] = [
             'class' => \yii\filters\auth\HttpBearerAuth::class,
         ];
-        return array_merge($behaviors, ['cors' => Cors::class]);
 
         return $behaviors;
     }
