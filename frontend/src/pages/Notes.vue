@@ -180,6 +180,9 @@ export default {
   mounted() {
     this.fetchNotes();
   },
+  created() {
+    this.$store.dispatch('checkAuth');
+  },
   computed: {
     searchedNotes() {
       return this.notes.filter(note => (note.content.toLowerCase().includes(this.querySearch.toLowerCase())

@@ -1,5 +1,5 @@
 <template>
-  <div class="shadow-md relative flex flex-col gap-8 overflow-hidden p-4 text-black dark:text-white border rounded-2xl h-full">
+  <div class="shadow-md relative flex flex-col gap-8 overflow-hidden p-4 text-black dark:text-white border rounded-2xl h-full min-h-[160px] min-w-[300px]">
     <p @click="removeCard" class="card-delete">x</p>
     <div class="lg:flex lg:items-center lg:justify-between">
       <p class="font-bold text-base leading-5 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">{{ note.title }}</p>
