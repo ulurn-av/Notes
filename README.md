@@ -63,7 +63,7 @@ npm install
 ### Настройка подключения к бекенду
 Отредактируйте url бекенд сервера в файле frontend/src/config.js
 ```js
-export const BASE_URL = 'https://www-my-backend.serveo.net';
+export const BASE_URL = 'http://localhost:8080';
 ```
 
 ### Запуск Фронтенда
