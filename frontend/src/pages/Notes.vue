@@ -1,36 +1,58 @@
 <template>
   <div>
-    <div class="container">
-      <header class="header-of-notes">
-        <h1>Notes</h1>
+    <div class="mx-auto max-w-screen-xl px-4 md:px-8 gap-8 flex flex-col py-14">
+      <modal-window v-model:show="isShowingModal">
+        <note-form
+            @create="createNote"
+        >
+        </note-form>
+      </modal-window>
+      <modal-window
+          v-model:show="isRemovingNote"
+      >
+        <remove-note-form
+            @remove="removeNote"
+            @break="disableRemoveNote"
+            :note="removeNote"
+        >
+        </remove-note-form>
+      </modal-window>
+      <modal-window
+          v-model:show="isEditingNote"
+      >
+        <edit-form
+            :note="{...editingNote}"
+            @cancelEdit="cancelEditNote"
+            @savedNote="savedEditNote"
+        >
+        </edit-form>
+
+      </modal-window>
+      <header class="container mx-auto flex h-16 items-center px-12">
+        <h1 class="mb-4 text-5xl font-bold tracking-tight text-foreground container py-14">
+          <span class="hover:text-indigo-600">
+            Notes
+          </span>
+        </h1>
         <InputSearch
+          class="m-4"
           v-model="querySearch"
           :placeholder-search="placeholderSearch"
         />
-        <button-add @click="showModal">+</button-add>
+        <button-add
+          @click="showModal"
+          class="m-4"
+        >
+          +
+        </button-add>
       </header>
-      <ListCards :notes="searchedNotes" @remove="activateRemoveNote"/>
+      <ListCards :notes="searchedNotes" @remove="activateRemoveNote" @edit="showEditNote"/>
     </div>
-    <modal-window v-model:show="isShowingModal">
-      <note-form
-          @create="createNote"
-      >
-      </note-form>
-    </modal-window>
-    <modal-window
-        v-model:show="isRemovingNote"
-    >
-      <remove-note-form
-          @remove="removeNote"
-          @break="disableRemoveNote"
-          :note="removeNote"
-      >
-      </remove-note-form>
-    </modal-window>
   </div>
 </template>
 
 <script>
+import { BASE_URL } from '@/config.js';
 import axios from 'axios';
 import ButtonAdd from "@/components/UI/ButtonAdd.vue";
 import ListCards from "@/components/ListCards.vue";
@@ -38,9 +60,10 @@ import InputSearch from "@/components/UI/InputSearch.vue";
 import ModalWindow from "@/components/UI/ModalWindow.vue";
 import NoteForm from "@/components/NoteForm.vue";
 import RemoveNoteForm from "@/components/RemoveNoteForm.vue";
+import EditForm from "@/components/EditForm.vue";
 
 export default {
-  components: {RemoveNoteForm, NoteForm, ModalWindow, ButtonAdd, ListCards, InputSearch},
+  components: {EditForm, RemoveNoteForm, NoteForm, ModalWindow, ButtonAdd, ListCards, InputSearch},
   data() {
     return {
       isLoading: false,
@@ -49,7 +72,9 @@ export default {
       notes: [],
       isShowingModal: false,
       isRemovingNote: false,
+      isEditingNote: false,
       removingNote: () => {},
+      editingNote: () => {},
     }
   },
   methods: {
@@ -61,7 +86,7 @@ export default {
       const token = localStorage.getItem('token');
 
       try {
-        const response = await axios.get('http://localhost:8080/v1/notes', {
+        const response = await axios.get(`${BASE_URL}/v1/notes`, {
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`,
@@ -82,10 +107,10 @@ export default {
     },
     async createNote(note) {
       try {
-        const response = await axios.post('http://localhost:8080/v1/notes',
+        const response = await axios.post(`${BASE_URL}/v1/notes`,
             {
               title: note.title,
-              content: note.body,
+              content: note.content,
             },
             {
               headers: {
@@ -110,7 +135,7 @@ export default {
     },
     async removeNote() {
       try {
-        const response = await axios.delete(`http://localhost:8080/v1/notes/${this.removingNote.id}`, {
+        const response = await axios.delete(`${BASE_URL}/v1/notes/${this.removingNote.id}`, {
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -120,6 +145,35 @@ export default {
         console.error('Error:', error.message);
       }
       this.isRemovingNote = false;
+      await this.fetchNotes();
+    },
+    showEditNote(note) {
+      this.isEditingNote = true;
+      this.editingNote = note;
+    },
+    cancelEditNote() {
+      this.isEditingNote = false;
+      this.editingNote = {};
+    },
+    async savedEditNote(note){
+      try {
+        const response = await axios.put(`${BASE_URL}/v1/notes/${note.id}`,
+            {
+              title: note.title,
+              content: note.content,
+            },
+            {
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`,
+              }
+            }
+        )
+      } catch (error) {
+        console.error('Error:', error.message);
+      }
+      this.isEditingNote = false;
+      this.editingNote = {};
       await this.fetchNotes();
     }
   },
@@ -137,27 +191,4 @@ export default {
 </script>
 
 <style scoped>
-
-h1 {
-  font-weight: bold;
-  margin-bottom: 25px;
-  font-size: 75px;
-}
-
-h1:hover {
-  color: lightgoldenrodyellow;
-  transition: color 0.2s ease;
-}
-
-.container {
-  max-width: 1000px;
-  padding: 30px;
-  margin: 0 auto;
-}
-
-.header-of-notes {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
 </style>

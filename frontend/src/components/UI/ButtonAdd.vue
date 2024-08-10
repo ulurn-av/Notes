@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button>
+    <button class="bg-indigo-600 text-white font-bold text-lg w-12 h-12 rounded-full flex items-center justify-center hover:bg-indigo-500">
       <slot></slot>
     </button>
   </div>
@@ -9,38 +9,5 @@
 <script>
 export default {
   name: "button-add",
-
 }
 </script>
-
-<style scoped>
-button {
-  background-color: gray;
-  border: none;
-  padding: 10px;
-  width: 50px;
-  height: 50px;
-  cursor: pointer;
-  border-radius: 1000px;
-  color: black;
-  font-size: 20px;
-  font-weight: bold;
-  transition: transform 0.2s ease-in-out;
-}
-
-@media (prefers-color-scheme: dark) {
-  button {
-    background-color: gray;
-  }
-}
-
-button:hover {
-  transform: scale(1.05);
-  background-color: lightgoldenrodyellow;
-}
-
-button:active {
-  transform: scale(0.95);
-  background-color: gray;
-}
-</style>

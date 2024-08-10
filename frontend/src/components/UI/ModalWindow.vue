@@ -1,6 +1,6 @@
 <template>
-  <div class="dialog" v-if="show" @click="hideDialog">
-    <div @click.stop class="dialog__content">
+  <div v-if="show" @click="hideDialog" class="fixed inset-0 bg-black bg-opacity-20 flex z-50 bg-background/40 backdrop-blur-md">
+    <div @click.stop class="m-auto bg-white rounded-lg min-h-[50px] min-w-[300px]">
       <slot></slot>
     </div>
   </div>
@@ -23,23 +23,4 @@ export default {
 </script>
 
 <style scoped>
-.dialog {
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  position: fixed;
-  background: rgb(0,0,0,0.5);
-  display: flex;
-}
-
-.dialog__content{
-  margin: auto;
-  background: gray;
-  border-radius: 12px;
-  min-height: 50px;
-  min-width: 300px;
-  padding: 20px;
-}
-
 </style>

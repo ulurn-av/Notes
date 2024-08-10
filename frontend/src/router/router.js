@@ -3,6 +3,8 @@ import {createRouter, createWebHistory} from "vue-router";
 import LoginPage from "@/pages/LoginPage.vue";
 import SignupPage from "@/pages/SignupPage.vue";
 import axios from "axios";
+import NotFound from "@/pages/NotFound.vue";
+import { BASE_URL } from '@/config.js';
 
 
 const routes = [
@@ -21,6 +23,10 @@ const routes = [
         path: '/signup',
         component: SignupPage
     },
+    {
+        path: '/:pathMatch(.*)*',
+        component: NotFound
+    }
 ]
 
 const router = createRouter({
@@ -34,7 +40,7 @@ async function isAuthenticated(){
         return false;
 
     try{
-        const response = await axios.post('http://localhost:8080/v1/auth/validate-token', {}, {
+        const response = await axios.post(`${BASE_URL}/v1/auth/validate-token`, {}, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`

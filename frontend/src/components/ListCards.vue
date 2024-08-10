@@ -1,10 +1,10 @@
 <template>
-  <div class="cards-container">
+  <div class="mx-auto grid w-full justify-center gap-8 lg:grid-cols-3 sm:grid-cols-2">
     <CardNote
         v-for="note in notes"
-        class="card"
         :note="note"
         @remove="removeCard"
+        @edit="$emit('edit', note)"
     >
     </CardNote>
   </div>
@@ -32,36 +32,4 @@ export default {
 </script>
 
 <style scoped>
-
-.cards-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.card {
-  width: 225px;
-  height: 225px;
-  background-color: lightslategray;
-  padding: 10px;
-  border-radius: 15px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  margin-right: 40px;
-  margin-bottom: 40px;
-  position: relative;
-  overflow: hidden;
-  transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
-}
-
-.card:hover {
-  transform: scale(1.02);
-  background-color: lightyellow;
-}
-
-.card:active {
-  transform: scale(0.98);
-  background-color: lightgoldenrodyellow;
-}
 </style>
